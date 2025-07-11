@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voter Alliance - My Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --va-primary: #1f1b51;
+            --va-secondary: #2c3e50;
+            --va-accent: #3498db;
+            --va-light: #ecf0f1;
+            --va-dark: #2c3e50;
+            --va-success: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--va-primary);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .profile-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .profile-sidebar {
+            width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .profile-main {
+            flex: 1;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+
+        .profile-avatar {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--va-light);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--va-primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .avatar-upload input {
+            display: none;
+        }
+
+        .profile-name {
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .profile-username {
+            text-align: center;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--va-primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .profile-bio {
+            background: var(--va-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            min-height: 100px;
+        }
+
+        .profile-bio textarea {
+            width: 100%;
+            min-height: 80px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            resize: vertical;
+        }
+
+        .bio-counter {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .profile-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: var(--va-secondary);
+        }
+
+        .demographic-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1em;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--va-primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #17143d;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .media-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .media-upload:hover {
+            border-color: var(--va-primary);
+        }
+
+        .media-upload i {
+            font-size: 2rem;
+            color: var(--va-primary);
+            margin-bottom: 10px;
+        }
+
+        .media-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .media-item {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .media-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .connection-status {
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+        }
+
+        .connection-status.connected {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .connection-status.disconnected {
+            background-color: #f8d7da;
+            color: #1d153e;
+            border-color: #f5c6cb;
+        }
+
+        .connection-status i {
+            margin-right: 8px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        .small {
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+            }
+            
+            .profile-sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .demographic-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1><i class="fas fa-user-circle"></i> My Profile</h1>
+            <div>
+                <a href="#" class="btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="connection-status disconnected" id="dbStatus">
+            <i class="fas fa-plug"></i>
+            <span>Disconnected from database</span>
+        </div>
+
+        <div class="profile-container">
+            <div class="profile-sidebar">
+                <div class="profile-avatar">
+                    <img id="avatarImage" src="https://via.placeholder.com/150" alt="Profile Picture">
+                    <div class="avatar-upload" title="Upload new photo">
+                        <i class="fas fa-camera"></i>
+                        <input type="file" id="avatarUpload" accept="image/*">
+                    </div>
+                </div>
+                
+                <h2 class="profile-name" id="profileName">Loading...</h2>
+                <div class="profile-username" id="profileUsername">@username</div>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statVotes">0</div>
+                        <div class="stat-label">Votes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statConnections">0</div>
+                        <div class="stat-label">Connections</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statCampaigns">0</div>
+                        <div class="stat-label">Campaigns</div>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h3 class="section-title">About Me</h3>
+                    <div class="profile-bio">
+                        <textarea id="profileBio" placeholder="Tell us about yourself (minimum 50 characters)" maxlength="500"></textarea>
+                        <div class="bio-counter"><span id="bioCounter">0</span>/500</div>
+                    </div>
+                    <button class="btn btn-block" id="saveBioBtn">Save Bio</button>
+                </div>
+            </div>
+            
+            <div class="profile-main">
+                <div class="profile-section">
+                    <h3 class="section-title">Demographic Information</h3>
+                    <div class="demographic-grid">
+                        <div class="form-group">
+                            <label for="inputAge">Age</label>
+                            <input type="number" id="inputAge" class="form-control" min="18" max="120">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGender">Gender</label>
+                            <select id="inputGender" class="form-control">
+                                <option value="">Select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="non-binary">Non-binary</option>
+                                <option value="other">Other</option>
+                                <option value="prefer-not-to-say">Prefer not to say</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEthnicity">Ethnicity</label>
+                            <select id="inputEthnicity" class="form-control">
+                                <option value="">Select</option>
+                                <option value="african-american">African American</option>
+                                <option value="asian">Asian</option>
+                                <option value="caucasian">Caucasian</option>
+                                <option value="hispanic">Hispanic</option>
+                                <option value="native-american">Native American</option>
+                                <option value="pacific-islander">Pacific Islander</option>
+                                <option value="multiracial">Multiracial</option>
+                                <option value="other">Other</option>
+                                <option value="prefer-not-to-say">Prefer not to say</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEducation">Education Level</label>
+                            <select id="inputEducation" class="form-control">
+                                <option value="">Select</option>
+                                <option value="high-school">High School</option>
+                                <option value="some-college">Some College</option>
+                                <option value="associate">Associate Degree</option>
+                                <option value="bachelor">Bachelor's Degree</option>
+                                <option value="master">Master's Degree</option>
+                                <option value="doctorate">Doctorate</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputIncome">Annual Income</label>
+                            <select id="inputIncome" class="form-control">
+                                <option value="">Select</option>
+                                <option value="under-25k">Under $25,000</option>
+                                <option value="25k-50k">$25,000 - $50,000</option>
+                                <option value="50k-75k">$50,000 - $75,000</option>
+                                <option value="75k-100k">$75,000 - $100,000</option>
+                                <option value="100k-150k">$100,000 - $150,000</option>
+                                <option value="over-150k">Over $150,000</option>
+                                <option value="prefer-not-to-say">Prefer not to say</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputParty">Political Party</label>
+                            <select id="inputParty" class="form-control">
+                                <option value="">Select</option>
+                                <option value="democrat">Democrat</option>
+                                <option value="republican">Republican</option>
+                                <option value="independent">Independent</option>
+                                <option value="libertarian">Libertarian</option>
+                                <option value="green">Green Party</option>
+                                <option value="other">Other</option>
+                                <option value="prefer-not-to-say">Prefer not to say</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn" id="saveDemographicsBtn">Save Demographic Info</button>
+                </div>
+                
+                <div class="profile-section">
+                    <h3 class="section-title">Media Gallery</h3>
+                    <div class="media-upload" id="mediaUploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Upload photos or videos</p>
+                        <p class="small">Click to browse or drag and drop files</p>
+                        <input type="file" id="mediaUpload" accept="image/*,video/*" multiple style="display: none;">
+                    </div>
+                    <div class="media-preview" id="mediaPreview">
+                        <!-- Media items will appear here -->
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h3 class="section-title">Connected Devices</h3>
+                    <div id="connectedDevices">
+                        <div class="loading">
+                            <i class="fas fa-spinner"></i> Loading connected devices...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Current user ID - in a real app, this would come from authentication
+        const currentUserId = 1;
+        
+        // Database connection pool
+        let dbPool;
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Initialize database connection
+            await initializeDatabase();
+            
+            // Load profile data
+            await loadProfileData();
+            
+            // Load connected devices
+            await loadConnectedDevices();
+            
+            // Set up event listeners
+            setupEventListeners();
+        });
+        
+        // Initialize database connection
+        async function initializeDatabase() {
+            const statusElement = document.getElementById('dbStatus');
+            
+            try {
+                // Show connecting status
+                statusElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to database...';
+                statusElement.className = 'connection-status';
+                
+                // In a real application, you would connect to your backend API here
+                // For demonstration, we'll simulate a connection
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Simulate successful connection
+                dbPool = {
+                    query: async function(query, params) {
+                        // This is where you would make actual API calls to your backend
+                        // that connects to PostgreSQL
+                        return await mockDatabaseQuery(query, params);
+                    },
+                    end: function() {
+                        console.log('Connection pool closed');
+                    }
+                };
+                
+                // Update status
+                statusElement.innerHTML = '<i class="fas fa-check-circle"></i> Connected to database';
+                statusElement.className = 'connection-status connected';
+                
+                return true;
+            } catch (error) {
+                console.error('Database connection error:', error);
+                statusElement.innerHTML = `<i class="fas fa-times-circle"></i> Connection failed: ${error.message}`;
+                statusElement.className = 'connection-status disconnected';
+                return false;
+            }
+        }
+        
+        // Load profile data from database
+        async function loadProfileData() {
+            try {
+                // Get user profile data
+                const profileQuery = `
+                    SELECT 
+                        u.id, u.username, u.first_name, u.last_name, 
+                        p.bio, p.avatar_url, p.demographics,
+                        (SELECT COUNT(*) FROM votes WHERE user_id = u.id) as vote_count,
+                        (SELECT COUNT(*) FROM connections WHERE user_id = u.id OR connected_user_id = u.id) as connection_count,
+                        (SELECT COUNT(*) FROM campaigns WHERE user_id = u.id) as campaign_count
+                    FROM users u
+                    LEFT JOIN user_profiles p ON u.id = p.user_id
+                    WHERE u.id = $1;
+                `;
+                
+                const result = await dbPool.query(profileQuery, [currentUserId]);
+                
+                if (result.rows.length === 0) {
+                    console.error('User profile not found');
+                    return;
+                }
+                
+                const profile = result.rows[0];
+                
+                // Update profile information
+                document.getElementById('profileName').textContent = 
+                    `${profile.first_name} ${profile.last_name}`;
+                document.getElementById('profileUsername').textContent = `@${profile.username}`;
+                
+                // Update stats
+                document.getElementById('statVotes').textContent = profile.vote_count;
+                document.getElementById('statConnections').textContent = profile.connection_count;
+                document.getElementById('statCampaigns').textContent = profile.campaign_count;
+                
+                // Update bio
+                const bioTextarea = document.getElementById('profileBio');
+                bioTextarea.value = profile.bio || '';
+                updateBioCounter();
+                
+                // Update avatar
+                if (profile.avatar_url) {
+                    document.getElementById('avatarImage').src = profile.avatar_url;
+                }
+                
+                // Update demographics
+                if (profile.demographics) {
+                    const demo = profile.demographics;
+                    if (demo.age !== undefined) document.getElementById('inputAge').value = demo.age;
+                    if (demo.gender !== undefined) document.getElementById('inputGender').value = demo.gender;
+                    if (demo.ethnicity !== undefined) document.getElementById('inputEthnicity').value = demo.ethnicity;
+                    if (demo.education !== undefined) document.getElementById('inputEducation').value = demo.education;
+                    if (demo.income !== undefined) document.getElementById('inputIncome').value = demo.income;
+                    if (demo.party !== undefined) document.getElementById('inputParty').value = demo.party;
+                }
+                
+                // Load media gallery
+                await loadMediaGallery();
+                
+            } catch (error) {
+                console.error('Error loading profile data:', error);
+            }
+        }
+        
+        // Load media gallery from database
+        async function loadMediaGallery() {
+            try {
+                const mediaQuery = `
+                    SELECT id, media_url, media_type, created_at 
+                    FROM user_media 
+                    WHERE user_id = $1 
+                    ORDER BY created_at DESC
+                    LIMIT 20;
+                `;
+                
+                const result = await dbPool.query(mediaQuery, [currentUserId]);
+                const mediaPreview = document.getElementById('mediaPreview');
+                mediaPreview.innerHTML = '';
+                
+                if (result.rows.length === 0) {
+                    mediaPreview.innerHTML = '<p>No media uploaded yet</p>';
+                    return;
+                }
+                
+                result.rows.forEach(media => {
+                    const mediaItem = document.createElement('div');
+                    mediaItem.className = 'media-item';
+                    
+                    if (media.media_type.startsWith('image/')) {
+                        mediaItem.innerHTML = `
+                            <img src="${media.media_url}" alt="User media">
+                            <div class="media-remove" data-id="${media.id}">&times;</div>
+                        `;
+                    } else if (media.media_type.startsWith('video/')) {
+                        mediaItem.innerHTML = `
+                            <video controls>
+                                <source src="${media.media_url}" type="${media.media_type}">
+                            </video>
+                            <div class="media-remove" data-id="${media.id}">&times;</div>
+                        `;
+                    }
+                    
+                    mediaPreview.appendChild(mediaItem);
+                });
+                
+                // Add event listeners to remove buttons
+                document.querySelectorAll('.media-remove').forEach(button => {
+                    button.addEventListener('click', async function(e) {
+                        e.stopPropagation();
+                        const mediaId = this.getAttribute('data-id');
+                        await deleteMediaItem(mediaId);
+                        this.parentElement.remove();
+                    });
+                });
+                
+            } catch (error) {
+                console.error('Error loading media gallery:', error);
+            }
+        }
+        
+        // Delete media item from database
+        async function deleteMediaItem(mediaId) {
+            try {
+                const deleteQuery = `
+                    DELETE FROM user_media 
+                    WHERE id = $1 AND user_id = $2
+                    RETURNING *;
+                `;
+                
+                const result = await dbPool.query(deleteQuery, [mediaId, currentUserId]);
+                
+                if (result.rows.length === 0) {
+                    console.error('Media item not found or not owned by user');
+                    return false;
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error deleting media item:', error);
+                return false;
+            }
+        }
+        
+        // Load connected devices from database
+        async function loadConnectedDevices() {
+            try {
+                const devicesQuery = `
+                    SELECT id, device_name, device_type, last_connected 
+                    FROM user_devices 
+                    WHERE user_id = $1 
+                    ORDER BY last_connected DESC;
+                `;
+                
+                const result = await dbPool.query(devicesQuery, [currentUserId]);
+                const devicesContainer = document.getElementById('connectedDevices');
+                
+                if (result.rows.length === 0) {
+                    devicesContainer.innerHTML = '<p>No connected devices found</p>';
+                    return;
+                }
+                
+                let devicesHTML = '<div class="demographic-grid">';
+                
+                result.rows.forEach(device => {
+                    devicesHTML += `
+                        <div class="form-group">
+                            <label>${device.device_name}</label>
+                            <div class="form-control" style="background:#f8f9fa;">
+                                ${device.device_type} - Last connected: ${formatDate(device.last_connected)}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                devicesHTML += '</div>';
+                devicesContainer.innerHTML = devicesHTML;
+                
+            } catch (error) {
+                console.error('Error loading connected devices:', error);
+                document.getElementById('connectedDevices').innerHTML = 
+                    '<p>Error loading connected devices</p>';
+            }
+        }
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Bio character counter
+            document.getElementById('profileBio').addEventListener('input', updateBioCounter);
+            
+            // Save bio button
+            document.getElementById('saveBioBtn').addEventListener('click', saveBio);
+            
+            // Save demographics button
+            document.getElementById('saveDemographicsBtn').addEventListener('click', saveDemographics);
+            
+            // Avatar upload
+            document.getElementById('avatarUpload').addEventListener('change', uploadAvatar);
+            
+            // Media upload
+            document.getElementById('mediaUploadArea').addEventListener('click', function() {
+                document.getElementById('mediaUpload').click();
+            });
+            
+            document.getElementById('mediaUpload').addEventListener('change', uploadMedia);
+            
+            // Drag and drop for media
+            const mediaUploadArea = document.getElementById('mediaUploadArea');
+            
+            mediaUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = 'var(--va-primary)';
+                this.style.backgroundColor = 'rgba(244, 89, 51, 0.1)';
+            });
+            
+            mediaUploadArea.addEventListener('dragleave', function() {
+                this.style.borderColor = '#ddd';
+                this.style.backgroundColor = '';
+            });
+            
+            mediaUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#ddd';
+                this.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    // Process dropped files directly
+                    uploadMediaFiles(e.dataTransfer.files);
+                }
+            });
+            
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                // In a real app, you would handle logout here
+                alert('Logout functionality would be implemented here');
+            });
+        }
+        
+        // Update bio character counter
+        function updateBioCounter() {
+            const bioTextarea = document.getElementById('profileBio');
+            const counter = document.getElementById('bioCounter');
+            const length = bioTextarea.value.length;
+            counter.textContent = length;
+            
+            if (length < 50) {
+                counter.style.color = 'red';
+            } else {
+                counter.style.color = 'inherit';
+            }
+        }
+        
+        // Save bio to database
+        async function saveBio() {
+            const bioTextarea = document.getElementById('profileBio');
+            const bio = bioTextarea.value;
+            
+            if (bio.trim().length < 50) {
+                alert('Bio must be at least 50 characters long');
+                return;
+            }
+            
+            try {
+                const upsertQuery = `
+                    INSERT INTO user_profiles (user_id, bio, updated_at)
+                    VALUES ($1, $2, NOW())
+                    ON CONFLICT (user_id) 
+                    DO UPDATE SET bio = $2, updated_at = NOW()
+                    RETURNING *;
+                `;
+                
+                const result = await dbPool.query(upsertQuery, [currentUserId, bio.trim()]);
+                
+                if (result.rows.length > 0) {
+                    alert('Bio saved successfully!');
+                }
+            } catch (error) {
+                console.error('Error saving bio:', error);
+                alert('Failed to save bio');
+            }
+        }
+        
+        // Save demographics to database
+        async function saveDemographics() {
+            const demographics = {
+                age: document.getElementById('inputAge').value,
+                gender: document.getElementById('inputGender').value,
+                ethnicity: document.getElementById('inputEthnicity').value,
+                education: document.getElementById('inputEducation').value,
+                income: document.getElementById('inputIncome').value,
+                party: document.getElementById('inputParty').value
+            };
+            
+            try {
+                const upsertQuery = `
+                    INSERT INTO user_profiles (user_id, demographics, updated_at)
+                    VALUES ($1, $2, NOW())
+                    ON CONFLICT (user_id) 
+                    DO UPDATE SET demographics = $2, updated_at = NOW()
+                    RETURNING *;
+                `;
+                
+                const result = await dbPool.query(upsertQuery, [currentUserId, JSON.stringify(demographics)]);
+                
+                if (result.rows.length > 0) {
+                    alert('Demographic information saved successfully!');
+                }
+            } catch (error) {
+                console.error('Error saving demographics:', error);
+                alert('Failed to save demographic information');
+            }
+        }
+        
+        // Upload avatar image
+        async function uploadAvatar() {
+            const fileInput = document.getElementById('avatarUpload');
+            const file = fileInput.files[0];
+            
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                alert('Please upload an image file');
+                return;
+            }
+            
+            try {
+                // In a real app, you would upload the file to a server
+                // and get back a URL to store in the database
+                const avatarUrl = await mockFileUpload(file);
+                
+                const updateQuery = `
+                    UPDATE user_profiles 
+                    SET avatar_url = $1, updated_at = NOW()
+                    WHERE user_id = $2
+                    RETURNING *;
+                `;
+                const result = await dbPool.query(updateQuery, [avatarUrl, currentUserId]);
+                
+                if (result.rows.length > 0) {
+                    document.getElementById('avatarImage').src = avatarUrl;
+                    alert('Profile picture updated successfully!');
+                }
+            } catch (error) {
+                console.error('Error uploading avatar:', error);
+                alert('Failed to update profile picture');
+            }
+        }
+        
+        // Upload media files from file input
+        async function uploadMedia() {
+            const fileInput = document.getElementById('mediaUpload');
+            const files = fileInput.files;
+            if (!files || files.length === 0) return;
+            await uploadMediaFiles(files);
+            // Clear file input
+            fileInput.value = '';
+        }
+
+        // Upload media files from a FileList (used for drag-and-drop)
+        async function uploadMediaFiles(files) {
+            if (!files || files.length === 0) return;
+            try {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+                        console.log(`Skipping unsupported file type: ${file.type}`);
+                        continue;
+                    }
+                    // In a real app, you would upload the file to a server
+                    const mediaUrl = await mockFileUpload(file);
+                    const insertQuery = `
+                        INSERT INTO user_media (user_id, media_url, media_type)
+                        VALUES ($1, $2, $3)
+                        RETURNING *;
+                    `;
+                    await dbPool.query(insertQuery, [currentUserId, mediaUrl, file.type]);
+                }
+                // Refresh media gallery
+                await loadMediaGallery();
+                alert('Media uploaded successfully!');
+            } catch (error) {
+                console.error('Error uploading media:', error);
+                alert('Failed to upload media');
+            }
+        }
+        
+        // Helper function to format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+        
+        // Mock database query function - replace with actual API calls in production
+        async function mockDatabaseQuery(query, params = []) {
+            console.log('Executing query:', query, 'with params:', params);
+            
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            // Mock responses based on query type
+            if (query.includes('SELECT u.id, u.username, u.first_name')) {
+                // Return mock profile data
+                return {
+                    rows: [{
+                        id: currentUserId,
+                        username: 'voter123',
+                        first_name: 'John',
+                        last_name: 'Doe',
+                        bio: 'I am an active voter interested in local politics and community engagement. I believe in the power of democracy and making our voices heard.',
+                        avatar_url: 'https://randomuser.me/api/portraits/men/32.jpg',
+                        demographics: {
+                            age: 35,
+                            gender: 'male',
+                            ethnicity: 'caucasian',
+                            education: 'bachelor',
+                            income: '75k-100k',
+                            party: 'independent'
+                        },
+                        vote_count: 42,
+                        connection_count: 18,
+                        campaign_count: 3
+                    }]
+                };
+            } else if (query.includes('SELECT id, media_url, media_type')) {
+                // Return mock media items
+                return {
+                    rows: [
+                        {
+                            id: 1,
+                            media_url: 'https://picsum.photos/id/100/200/200',
+                            media_type: 'image/jpeg',
+                            created_at: new Date(Date.now() - 86400000).toISOString()
+                        },
+                        {
+                            id: 2,
+                            media_url: 'https://picsum.photos/id/200/200/200',
+                            media_type: 'image/jpeg',
+                            created_at: new Date(Date.now() - 172800000).toISOString()
+                        }
+                    ]
+                };
+            } else if (query.includes('SELECT id, device_name, device_type')) {
+                // Return mock connected devices
+                return {
+                    rows: [
+                        {
+                            id: 1,
+                            device_name: 'iPhone 13',
+                            device_type: 'Mobile',
+                            last_connected: new Date(Date.now() - 3600000).toISOString()
+                        },
+                        {
+                            id: 2,
+                            device_name: 'MacBook Pro',
+                            device_type: 'Laptop',
+                            last_connected: new Date(Date.now() - 86400000).toISOString()
+                        }
+                    ]
+                };
+            } else if (query.includes('INSERT INTO user_profiles')) {
+                // Return mock upsert result
+                return {
+                    rows: [{
+                        id: 1,
+                        user_id: currentUserId,
+                        bio: params[1],
+                        updated_at: new Date().toISOString()
+                    }]
+                };
+            } else if (query.includes('UPDATE user_profiles SET avatar_url')) {
+                // Return mock update result
+                return {
+                    rows: [{
+                        id: 1,
+                        user_id: currentUserId,
+                        avatar_url: params[0],
+                        updated_at: new Date().toISOString()
+                    }]
+                };
+            } else if (query.includes('INSERT INTO user_media')) {
+                // Return mock insert result
+                return {
+                    rows: [{
+                        id: Math.floor(Math.random() * 1000) + 100,
+                        user_id: currentUserId,
+                        media_url: params[1],
+                        media_type: params[2],
+                        created_at: new Date().toISOString()
+                    }]
+                };
+            } else if (query.includes('DELETE FROM user_media')) {
+                // Return mock delete result
+                return {
+                    rows: [{
+                        id: params[0],
+                        user_id: currentUserId
+                    }]
+                };
+            }
+            
+            return { rows: [] };
+        }
+        
+        // Mock file upload function - replace with actual file upload in production
+        async function mockFileUpload(file) {
+            console.log('Uploading file:', file.name);
+            
+            // Simulate upload delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            if (file.type.startsWith('image/')) {
+                // Return mock image URL
+                return `https://picsum.photos/id/${Math.floor(Math.random() * 1000)}/400/400`;
+            } else if (file.type.startsWith('video/')) {
+                // Return mock video URL
+                return 'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';
+            }
+            
+            throw new Error('Unsupported file type');
+        }
+        
+        // Add window unload handler to clean up connections
+        window.addEventListener('beforeunload', function() {
+            if (dbPool && typeof dbPool.end === 'function') {
+                dbPool.end();
+            }
+        });
+    </script>
+</body>
+</html>

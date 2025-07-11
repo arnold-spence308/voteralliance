@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoterAlliance_web", "VoterAlliance_web\VoterAlliance_web.csproj", "{B8C59229-B7FD-4304-9553-C4539BAE61A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoterAlliance_web.Client", "VoterAlliance_web.Client\VoterAlliance_web.Client.csproj", "{7A99ADFD-C383-404F-AEB3-60AFAA833C60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8C59229-B7FD-4304-9553-C4539BAE61A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8C59229-B7FD-4304-9553-C4539BAE61A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8C59229-B7FD-4304-9553-C4539BAE61A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8C59229-B7FD-4304-9553-C4539BAE61A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A99ADFD-C383-404F-AEB3-60AFAA833C60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A99ADFD-C383-404F-AEB3-60AFAA833C60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A99ADFD-C383-404F-AEB3-60AFAA833C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A99ADFD-C383-404F-AEB3-60AFAA833C60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6192847C-261C-44D3-8ADF-4F4B82B58239}
+	EndGlobalSection
+EndGlobal

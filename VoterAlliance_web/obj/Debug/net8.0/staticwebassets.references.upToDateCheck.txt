@@ -1,0 +1,3 @@
+O:\VoterAlliance_web\VoterAlliance_web.Client\obj\Debug\net8.0\staticwebassets.build.json
+O:\VoterAlliance_web\VoterAlliance_web.Client\obj\Debug\net8.0\staticwebassets.build.json
+O:\VoterAlliance_web\VoterAlliance_web.Client\obj\Debug\net8.0\staticwebassets.build.json

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Tag Manager -->
+    <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-W9P7MZZG');</script>
+    <!-- End Google Tag Manager -->
+    <title>Voter Alliance Notifications</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <style>
+        :root {
+            --va-primary: #202254;
+        }
+
+        #chat-view:not(.active) {
+            display: none;
+        }
+            --va-secondary: #2c3e50;
+            --va-accent: #3498db;
+            --va-light: #ecf0f1;
+            --va-dark: #2c3e50;
+            --va-success: #27ae60;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        header {
+            background-color: var(--va-primary);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-content i {
+            margin-right: 15px;
+            font-size: 1.5em;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .notification-header {
+            background-color: var(--va-secondary);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-header h2 {
+            margin: 0;
+            font-size: 1.3em;
+        }
+
+        .notification-count {
+            background-color: var(--va-primary);
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8em;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 70%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            position: relative;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .received {
+            background-color: white;
+            border-top-left-radius: 5px;
+            margin-right: auto;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+        }
+
+        .sent {
+            background-color: var(--va-accent);
+            color: white;
+            border-top-right-radius: 5px;
+            margin-left: auto;
+        }
+
+        .message-sender {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: var(--va-secondary);
+        }
+
+        .message-time {
+            font-size: 0.75em;
+            color: #95a5a6;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .response-area {
+            padding: 15px;
+            background-color: white;
+            border-top: 1px solid #eee;
+            display: flex;
+        }
+
+        .response-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1em;
+            transition: border 0.3s;
+        }
+
+        .response-input:focus {
+            border-color: var(--va-accent);
+        }
+
+        .send-button {
+            background-color: var(--va-primary);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .send-button:hover {
+            background-color: #251e4a;
+        }
+
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .notification-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .notification-item.unread {
+            background-color: #f0f7ff;
+        }
+
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .notification-time {
+            font-size: 0.8em;
+            color: #95a5a6;
+        }
+
+        .notification-content {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #95a5a6;
+        }
+
+        .empty-state i {
+            font-size: 3em;
+            margin-bottom: 15px;
+            color: #bdc3c7;
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--va-primary);
+            color: var(--va-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: var(--va-primary);
+            font-size: 1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-button i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W9P7MZZG"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <header>
+        <div class="header-content">
+            <i class="fas fa-comment-alt"></i>
+            <h1>Voter Alliance Notifications</h1>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="notification-header">
+            <h2><i class="fas fa-bell"></i> Your Notifications</h2>
+            <div class="notification-count" id="notificationCount"></div>
+        </div>
+        
+        <div class="tab-container">
+            <div class="tab active" data-tab="notifications">Notifications</div>
+            <div class="tab" data-tab="messages">Messages</div>
+        </div>
+        
+        <div id="notifications" class="tab-content active">
+            <div class="notification-item unread" data-id="1">
+                <div class="notification-title">
+                    <span>New Campaign Update</span>
+                    <span class="notification-time">10 min ago</span>
+                </div>
+                <div class="notification-content">
+                    The local election committee has updated the voting schedule for your district. Please review the changes.
+                </div>
+            </div>
+            
+            <div class="notification-item unread" data-id="2">
+                <div class="notification-title">
+                    <span>Volunteer Request</span>
+                    <span class="notification-time">45 min ago</span>
+                </div>
+                <div class="notification-content">
+                    John Smith from your neighborhood is requesting volunteers for poll monitoring next week.
+                </div>
+            </div>
+            
+            <div class="notification-item" data-id="3">
+                <div class="notification-title">
+                    <span>Policy Discussion</span>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+                <div class="notification-content">
+                    Maria Gonzalez has started a new discussion about education policy in your area.
+                </div>
+            </div>
+            
+            <div class="notification-item" data-id="4">
+                <div class="notification-title">
+                    <span>Event Reminder</span>
+                    <span class="notification-time">Yesterday</span>
+                </div>
+                <div class="notification-content">
+                    Don't forget about the town hall meeting tomorrow at 7 PM at the community center.
+                </div>
+            </div>
+        </div>
+        
+        <div id="messages" class="tab-content">
+            <div class="empty-state">
+                <i class="fas fa-comments"></i>
+                <p>Select a notification to view or respond</p>
+            </div>
+        </div>
+        
+        <div id="chat-view" class="tab-content">
+            <button class="back-button" id="backToNotifications"><i class="fas fa-arrow-left"></i> Back to Notifications</button>
+            <div class="chat-container">
+                <div class="messages-container" id="chatMessages">
+                    <!-- Chat messages will be loaded here -->
+                </div>
+                <div class="response-area">
+                    <input type="text" class="response-input" placeholder="Type your response..." id="chatInput">
+                    <button class="send-button" id="sendMessage">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dynamically update notification count
+            function updateNotificationCount() {
+                const unread = document.querySelectorAll('.notification-item.unread').length;
+                document.getElementById('notificationCount').textContent = unread;
+            }
+            updateNotificationCount();
+            function activateTab(tabName) {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to selected tab and corresponding content
+                document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+                document.getElementById(tabName).classList.add('active');
+                
+                // Always hide chat view when switching tabs
+                document.getElementById('chat-view').style.display = 'none';
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    activateTab(tabName);
+                });
+            });
+                    
+                    // Hide chat view if it's open
+            // Track the previously active tab
+            let previousTab = 'notifications';
+
+            // Notification click handler
+            const notificationItems = document.querySelectorAll('.notification-item');
+            notificationItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Store the currently active tab before switching to chat view
+                    const activeTab = document.querySelector('.tab.active');
+                    if (activeTab) {
+                        previousTab = activeTab.getAttribute('data-tab');
+                    }
+
+                    // Remove unread status and update count
+                    this.classList.remove('unread');
+                    updateNotificationCount();
+
+                    // Show chat view for this notification
+                    const notificationId = this.getAttribute('data-id');
+                    loadChat(notificationId);
+                });
+            });
+
+            // Back button handler
+            document.getElementById('backToNotifications').addEventListener('click', function() {
+                document.getElementById('chat-view').style.display = 'none';
+
+                // Restore the previously active tab and its content
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                document.querySelector(`.tab[data-tab="${previousTab}"]`).classList.add('active');
+                document.getElementById(previousTab).classList.add('active');
+            });
+                document.querySelector('.tab[data-tab="notifications"]').classList.add('active');
+            });
+            
+            // Send message handler
+                // Show chat view
+                document.getElementById('chat-view').classList.add('active');
+                
+                // Clear previous messages
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';
+            
+            // Function to load chat for a notification
+            function loadChat(notificationId) {
+                // Add notification as first message, including the title
+                addMessage({
+                    sender: 'System Notification',
+                    content: notification.title + ': ' + notification.content,
+                    time: notification.time,
+                    type: 'received'
+                });
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';
+                
+                // Get notification content (in a real app, this would come from an API)
+                const notification = getNotificationById(notificationId);
+                
+                // Add notification as first message
+                addMessage({
+                    sender: 'System Notification',
+                    content: notification.content,
+                    time: notification.time,
+                    type: 'received'
+                });
+                
+                // Add some sample responses (in a real app, these would come from a database)
+                if (notificationId === '1') {
+                    addMessage({
+                        sender: 'Sarah Johnson',
+                        content: 'Thanks for the update! Will there be any changes to the voter ID requirements?',
+                        time: '5 min ago',
+                        type: 'received'
+                    });
+                } else if (notificationId === '2') {
+                    addMessage({
+                        sender: 'John Smith',
+                        content: 'We really need more volunteers to cover all the polling stations. Can you help?',
+                        time: '30 min ago',
+                        type: 'received'
+                    });
+                }
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Function to add a message to the chat
+            function addMessage(message) {
+                const chatMessages = document.getElementById('chatMessages');
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', message.type);
+                
+                if (message.type === 'received') {
+                    const senderDiv = document.createElement('div');
+                    senderDiv.classList.add('message-sender');
+                    senderDiv.textContent = message.sender;
+                    messageDiv.appendChild(senderDiv);
+                }
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.textContent = message.content;
+                messageDiv.appendChild(contentDiv);
+                
+                const timeDiv = document.createElement('div');
+                timeDiv.classList.add('message-time');
+                timeDiv.textContent = message.time;
+                messageDiv.appendChild(timeDiv);
+                
+                chatMessages.appendChild(messageDiv);
+            }
+            
+            // Function to send a message
+            function sendMessage() {
+                const input = document.getElementById('chatInput');
+                const messageText = input.value.trim();
+                
+                if (messageText) {
+                    // Add the message to the chat
+                    addMessage({
+                        sender: 'You',
+                        content: messageText,
+                        time: 'Just now',
+                        type: 'sent'
+                    });
+                    
+                    // Clear the input
+                    input.value = '';
+                    
+                    // Scroll to bottom
+                    document.getElementById('chatMessages').scrollTop = 
+                        document.getElementById('chatMessages').scrollHeight;
+                    
+                    // Add loading indicator message
+                    const chatMessages = document.getElementById('chatMessages');
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.classList.add('message', 'received');
+                    loadingDiv.setAttribute('id', 'loading-indicator');
+                    const senderDiv = document.createElement('div');
+                    senderDiv.classList.add('message-sender');
+                    senderDiv.textContent = 'Voter Alliance Support';
+                    loadingDiv.appendChild(senderDiv);
+                    const contentDiv = document.createElement('div');
+                    contentDiv.textContent = 'Voter Alliance Support is typing...';
+                    loadingDiv.appendChild(contentDiv);
+                    const timeDiv = document.createElement('div');
+                    timeDiv.classList.add('message-time');
+                    timeDiv.textContent = '';
+                    loadingDiv.appendChild(timeDiv);
+                    chatMessages.appendChild(loadingDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                    // Simulate a response (in a real app, this would come from the server)
+                    setTimeout(() => {
+                        const responses = [
+                            "Thank you for your message. We'll get back to you soon. (Automated response)",
+                            "We appreciate your feedback! (Automated response)",
+                            "Your response has been noted. (Automated response)",
+                            "Thanks for reaching out to Voter Alliance! (Automated response)"
+                        ];
+                        
+                        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                        
+                        // Remove loading indicator
+                        const loadingMsg = document.getElementById('loading-indicator');
+                        if (loadingMsg) {
+                            loadingMsg.remove();
+                        }
+
+                        addMessage({
+                            sender: 'Voter Alliance Support',
+                            content: randomResponse,
+                            time: 'Just now',
+                            type: 'received'
+                        });
+                    }, 1000);
+                }
+            }
+                    },
+                    '3': {
+                        title: 'Policy Discussion',
+                        content: 'Maria Gonzalez has started a new discussion about education policy in your area.',
+                        time: '2 hours ago'
+                    },
+                    '4': {
+                        title: 'Event Reminder',
+                        content: 'Don\'t forget about the town hall meeting tomorrow at 7 PM at the community center.',
+                        time: 'Yesterday'
+                    }
+                };
+                
+                return notifications[id] || { title: 'Unknown', content: 'Notification content not available', time: '' };
+            }
+                    },
+                    '3': {
+                        content: 'Maria Gonzalez has started a new discussion about education policy in your area.',
+                        time: '2 hours ago'
+                    },
+                    '4': {
+                        content: 'Don\'t forget about the town hall meeting tomorrow at 7 PM at the community center.',
+                        time: 'Yesterday'
+                    }
+                };
+                
+                return notifications[id] || { content: 'Notification content not available', time: '' };
+            }
+        });
+    </script>
+</body>
+</html>
